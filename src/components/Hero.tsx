@@ -14,8 +14,8 @@ export default function Hero() {
     <div className={styles.hero} ref={ref}>
       <div className={styles.bg}>
         <img
-          src="https://images.pexels.com/photos/1640775/pexels-photo-1640775.jpeg?auto=compress&cs=tinysrgb&w=1920"
-          alt="Group of friends with bags in urban setting"
+          src="/hero-bg.png"
+          alt="Aesthetic composition of ladies bags and accessories"
           className={styles.bgImg}
         />
         <div className={styles.bgOverlay} />
@@ -53,13 +53,13 @@ export default function Hero() {
         </div>
 
         <div className={styles.ctas}>
-          <button className={styles.ctaPrimary}>
+          <button className={`clay-btn clay-btn-accent ${styles.ctaPrimary}`}>
             <span>SHOP NOW</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </button>
-          <button className={styles.ctaSecondary}>
+          <button className={`clay-btn ${styles.ctaSecondary}`}>
             VIEW COLLECTIONS
           </button>
         </div>

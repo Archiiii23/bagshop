@@ -1,26 +1,41 @@
 import { useEffect, useState } from 'react'
-import { supabase, type Product } from '../lib/supabase'
+import { useCart } from '../context/CartContext'
+
+// Defining a local Product type since we removed supabase import
+export type Product = {
+  id: string
+  name: string
+  category_id: string
+  original_price: number
+  sale_price: number
+  image_url: string
+  badge_discount: string
+  badge_new: boolean
+  in_stock: boolean
+  created_at?: string
+}
 import styles from './FeaturedDrop.module.css'
 
 const FALLBACK: Product[] = [
-  { id: '1', name: 'Urban Street Backpack', category_id: '', original_price: 1499, sale_price: 749, image_url: 'https://images.pexels.com/photos/1294731/pexels-photo-1294731.jpeg', badge_discount: '50% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '2', name: 'Slim College Tote', category_id: '', original_price: 999, sale_price: 449, image_url: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
-  { id: '3', name: 'Pro Trolley 24"', category_id: '', original_price: 3999, sale_price: 1599, image_url: 'https://images.pexels.com/photos/2469122/pexels-photo-2469122.jpeg', badge_discount: '60% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '4', name: 'Everyday Crossbody', category_id: '', original_price: 799, sale_price: 349, image_url: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', badge_discount: '56% OFF', badge_new: true, in_stock: true, created_at: '' },
-  { id: '5', name: 'Campus Rolltop', category_id: '', original_price: 1299, sale_price: 599, image_url: 'https://images.pexels.com/photos/1374910/pexels-photo-1374910.jpeg', badge_discount: '54% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '6', name: 'Weekend Duffel', category_id: '', original_price: 1799, sale_price: 799, image_url: 'https://images.pexels.com/photos/3622608/pexels-photo-3622608.jpeg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
-  { id: '7', name: 'Minimalist Messenger', category_id: '', original_price: 1199, sale_price: 499, image_url: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', badge_discount: '58% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '8', name: 'Explorer Hardcase', category_id: '', original_price: 4999, sale_price: 1999, image_url: 'https://images.pexels.com/photos/2469122/pexels-photo-2469122.jpeg', badge_discount: '60% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '1', name: 'Urban Street Backpack', category_id: '', original_price: 1499, sale_price: 749, image_url: '/images/bags.jpg', badge_discount: '50% OFF', badge_new: false, in_stock: true, created_at: '' },
+  { id: '2', name: 'Slim College Tote', category_id: '', original_price: 999, sale_price: 449, image_url: '/images/college.jpg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '3', name: 'Pro Trolley 24"', category_id: '', original_price: 3999, sale_price: 1599, image_url: '/images/trolleyyy.jpg', badge_discount: '60% OFF', badge_new: false, in_stock: true, created_at: '' },
+  { id: '4', name: 'Everyday Crossbody', category_id: '', original_price: 799, sale_price: 349, image_url: '/images/hand.jpg', badge_discount: '56% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '5', name: 'Campus Rolltop', category_id: '', original_price: 1299, sale_price: 599, image_url: '/images/all.jpg', badge_discount: '54% OFF', badge_new: false, in_stock: true, created_at: '' },
+  { id: '6', name: 'Classy Hand Bags', category_id: '', original_price: 1799, sale_price: 799, image_url: '/images/ladies.jpg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '7', name: 'Minimalist Messenger', category_id: '', original_price: 1199, sale_price: 499, image_url: '/images/hand bag.jpg', badge_discount: '58% OFF', badge_new: false, in_stock: true, created_at: '' },
+  { id: '8', name: 'Explorer Hardcase', category_id: '', original_price: 4999, sale_price: 1999, image_url: '/images/trolley.jpg', badge_discount: '60% OFF', badge_new: true, in_stock: true, created_at: '' },
 ]
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const [hovered, setHovered] = useState(false)
+  const { addToCart } = useCart()
   const savings = product.original_price - product.sale_price
   const discountPct = Math.round((savings / product.original_price) * 100)
 
   return (
     <div
-      className={`${styles.card} ${hovered ? styles.hovered : ''}`}
+      className={`${styles.card} clay-card ${hovered ? styles.hovered : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ animationDelay: `${index * 0.08}s` }}
@@ -42,7 +57,15 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         </div>
 
         <div className={styles.overlay}>
-          <button className={styles.quickAdd}>
+          <button 
+            className={`${styles.quickAdd} clay-btn clay-btn-accent`}
+            onClick={() => addToCart({
+              id: product.id,
+              name: product.name,
+              price: product.sale_price,
+              image_url: product.image_url
+            })}
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M12 5v14M5 12h14"/>
             </svg>
@@ -67,9 +90,12 @@ export default function FeaturedDrop() {
   const [products, setProducts] = useState<Product[]>(FALLBACK)
 
   useEffect(() => {
-    supabase.from('products').select('*').order('created_at').then(({ data }) => {
-      if (data && data.length > 0) setProducts(data)
-    })
+    fetch(`${import.meta.env.VITE_API_URL}/products`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) setProducts(data)
+      })
+      .catch(err => console.error("Failed to fetch products:", err))
   }, [])
 
   return (
@@ -82,7 +108,7 @@ export default function FeaturedDrop() {
               FEATURED <span className={styles.titleAccent}>DROP</span>
             </h2>
           </div>
-          <button className={styles.viewAll}>
+          <button className={`clay-btn ${styles.viewAll}`}>
             VIEW ALL DEALS
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7"/>

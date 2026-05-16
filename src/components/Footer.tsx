@@ -4,10 +4,19 @@ import styles from './Footer.module.css'
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [couponCode, setCouponCode] = useState('')
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (email.trim()) {
+      const emailPrefix = email.split('@')[0].replace(/[^a-zA-Z]/g, '')
+      const first3 = (emailPrefix.length >= 3 ? emailPrefix.substring(0, 3) : emailPrefix.padEnd(3, 'X')).toUpperCase()
+      const nums = Math.floor(100 + Math.random() * 900)
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      const alpha1 = chars.charAt(Math.floor(Math.random() * chars.length))
+      const alpha2 = chars.charAt(Math.floor(Math.random() * chars.length))
+      
+      setCouponCode(`${first3}${nums}${alpha1}${alpha2}`)
       setSubmitted(true)
       setEmail('')
     }
@@ -45,7 +54,7 @@ export default function Footer() {
           <div className={styles.links}>
             <div className={styles.linkCol}>
               <span className={styles.colTitle}>SHOP</span>
-              {['New Arrivals', 'College Bags', 'Trolley Bags', 'Backpacks', 'Tote Bags', 'Handbags'].map(l => (
+              {['New Arrivals', 'College Bags', 'Trolley Bags', 'Backpacks', 'Ladies Bag', 'Handbags'].map(l => (
                 <a key={l} href="#" className={styles.footLink}>{l}</a>
               ))}
             </div>
@@ -69,11 +78,16 @@ export default function Footer() {
               Get 10% OFF your first order + exclusive early access to flash deals.
             </p>
             {submitted ? (
-              <div className={styles.successMsg}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5">
+              <div className={styles.successMsg} style={{ alignItems: 'flex-start' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" style={{ marginTop: '2px', flexShrink: 0 }}>
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                You're in. Watch your inbox.
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span>You're in! Use this code for 10% OFF:</span>
+                  <strong style={{ fontSize: '18px', letterSpacing: '2px', background: 'var(--bg-glass)', padding: '4px 8px', borderRadius: '4px', display: 'inline-block', border: '1px dashed var(--gold)' }}>
+                    {couponCode}
+                  </strong>
+                </div>
               </div>
             ) : (
               <form className={styles.form} onSubmit={handleSubmit}>

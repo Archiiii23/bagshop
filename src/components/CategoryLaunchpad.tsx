@@ -3,11 +3,11 @@ import { supabase, type Category } from '../lib/supabase'
 import styles from './CategoryLaunchpad.module.css'
 
 const FALLBACK: Category[] = [
-  { id: '1', name: 'College Bags', slug: 'college-bags', starting_price: 299, image_url: 'https://images.pexels.com/photos/1294731/pexels-photo-1294731.jpeg', created_at: '' },
-  { id: '2', name: 'Trolley Bags', slug: 'trolley-bags', starting_price: 899, image_url: 'https://images.pexels.com/photos/2469122/pexels-photo-2469122.jpeg', created_at: '' },
-  { id: '3', name: 'Backpacks', slug: 'backpacks', starting_price: 399, image_url: 'https://images.pexels.com/photos/1374910/pexels-photo-1374910.jpeg', created_at: '' },
-  { id: '4', name: 'Tote Bags', slug: 'tote-bags', starting_price: 199, image_url: 'https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg', created_at: '' },
-  { id: '5', name: 'Handbags', slug: 'handbags', starting_price: 499, image_url: 'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg', created_at: '' },
+  { id: '1', name: 'College Bags', slug: 'college-bags', starting_price: 299, image_url: '/images/college.jpg', created_at: '' },
+  { id: '2', name: 'Trolley Bags', slug: 'trolley-bags', starting_price: 899, image_url: '/images/trolleyyy.jpg', created_at: '' },
+  { id: '3', name: 'Backpacks', slug: 'backpacks', starting_price: 399, image_url: '/images/bags.jpg', created_at: '' },
+  { id: '4', name: 'Ladies Bag', slug: 'ladies-bag', starting_price: 199, image_url: '/images/ladies.jpg', created_at: '' },
+  { id: '5', name: 'Handbags', slug: 'handbags', starting_price: 499, image_url: '/images/hand bag.jpg', created_at: '' },
 ]
 
 export default function CategoryLaunchpad() {
@@ -32,7 +32,7 @@ export default function CategoryLaunchpad() {
           {categories.map((cat, i) => (
             <button
               key={cat.id}
-              className={`${styles.card} ${hoveredId === cat.id ? styles.hovered : ''}`}
+              className={`${styles.card} clay-card ${hoveredId === cat.id ? styles.hovered : ''}`}
               onMouseEnter={() => setHoveredId(cat.id)}
               onMouseLeave={() => setHoveredId(null)}
               style={{ animationDelay: `${i * 0.1}s` }}

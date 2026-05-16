@@ -5,10 +5,10 @@
 }
 
 :root {
-  --bg-primary: #0A0A0A;
-  --bg-secondary: #121212;
-  --bg-card: #1A1A1A;
-  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-primary: #121418;
+  --bg-secondary: #1a1d24;
+  --bg-card: #20242c;
+  --bg-glass: rgba(255, 255, 255, 0.05);
   --bg-glass-hover: rgba(255, 255, 255, 0.08);
 
   --accent-crimson: #FF003C;
@@ -22,16 +22,24 @@
   --gold-dim: rgba(255, 199, 0, 0.12);
 
   --text-primary: #FFFFFF;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-muted: rgba(255, 255, 255, 0.35);
+  --text-secondary: rgba(255, 255, 255, 0.75);
+  --text-muted: rgba(255, 255, 255, 0.45);
 
-  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(255, 255, 255, 0.05);
   --border-crimson: rgba(255, 0, 60, 0.5);
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Claymorphism Tokens */
+  --clay-bg: #20242c;
+  --clay-bg-hover: #262a34;
+  --clay-shadow-outer: 8px 8px 16px rgba(0, 0, 0, 0.4), -4px -4px 12px rgba(255, 255, 255, 0.02);
+  --clay-shadow-inner: inset 4px 4px 8px rgba(255, 255, 255, 0.05), inset -4px -4px 8px rgba(0, 0, 0, 0.3);
+  --clay-shadow-pressed: inset 6px 6px 12px rgba(0, 0, 0, 0.4), inset -2px -2px 6px rgba(255, 255, 255, 0.03);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
 
   --font-display: 'Montserrat', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -77,6 +85,58 @@ button {
 img {
   max-width: 100%;
   display: block;
+}
+
+/* Claymorphism Utility Classes */
+.clay-card {
+  background: var(--clay-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-outer), var(--clay-shadow-inner);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.clay-card:hover {
+  transform: translateY(-4px);
+  background: var(--clay-bg-hover);
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.5), -6px -6px 16px rgba(255, 255, 255, 0.03), var(--clay-shadow-inner);
+}
+
+.clay-btn {
+  background: var(--clay-bg);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-shadow-outer), var(--clay-shadow-inner);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.clay-btn:hover {
+  background: var(--clay-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5), -2px -2px 8px rgba(255, 255, 255, 0.03), var(--clay-shadow-inner);
+}
+
+.clay-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+.clay-btn-accent {
+  background: var(--accent-crimson);
+  box-shadow: 8px 8px 16px rgba(255, 0, 60, 0.2), -4px -4px 12px rgba(255, 255, 255, 0.1), inset 4px 4px 8px rgba(255, 255, 255, 0.2), inset -4px -4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.clay-btn-accent:hover {
+  background: #ff1a50;
+  box-shadow: 12px 12px 24px rgba(255, 0, 60, 0.3), -6px -6px 16px rgba(255, 255, 255, 0.15), inset 4px 4px 8px rgba(255, 255, 255, 0.2), inset -4px -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.clay-btn-accent:active {
+  box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.3), inset -2px -2px 6px rgba(255, 255, 255, 0.1);
 }
 
 ::selection {

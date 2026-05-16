@@ -1,0 +1,29 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.word {
+  font-family: var(--font-display);
+  font-size: 14vw;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  will-change: transform, opacity, clip-path;
+}
+
+@media (max-width: 768px) {
+  .word {
+    font-size: 18vw;
+  }
+}

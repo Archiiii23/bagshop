@@ -1,0 +1,92 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-crimson);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-glass) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay.open .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accent-crimson);
+}
+
+.iconWrap {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 0, 60, 0.1);
+  border: 2px solid var(--accent-crimson);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  color: var(--accent-crimson);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.message {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.closeBtn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.closeBtn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
