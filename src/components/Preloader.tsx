@@ -17,32 +17,30 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
   return (
     <AnimatePresence>
-      {stage !== 'done' && (
+      <motion.div 
+        className={styles.preloader}
+        initial={{ y: '0%' }}
+        animate={{ y: stage === 'outro' ? '-100vh' : '0%' }}
+        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+        onAnimationComplete={() => {
+          if (stage === 'outro') {
+            setStage('done')
+            onComplete()
+          }
+        }}
+      >
         <motion.div 
-          className={styles.preloader}
-          initial={{ y: '0%' }}
-          animate={{ y: stage === 'outro' ? '-100vh' : '0%' }}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-          onAnimationComplete={() => {
-            if (stage === 'outro') {
-              setStage('done')
-              onComplete()
-            }
+          className={styles.word}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ 
+            opacity: stage === 'outro' ? 0 : 1, 
+            y: stage === 'outro' ? -50 : 0 
           }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: stage === 'outro' ? 0 : 0.2 }}
         >
-          <motion.div 
-            className={styles.word}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ 
-              opacity: stage === 'outro' ? 0 : 1, 
-              y: stage === 'outro' ? -50 : 0 
-            }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: stage === 'outro' ? 0 : 0.2 }}
-          >
-            BAGHOUSE
-          </motion.div>
+          BAGHOUSE
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   )
 }
