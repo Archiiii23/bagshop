@@ -17,17 +17,17 @@ export type Product = {
 import styles from './FeaturedDrop.module.css'
 
 const FALLBACK: Product[] = [
-  { id: '1', name: 'Urban Street Backpack', category_id: '', original_price: 1499, sale_price: 749, image_url: '/images/bags.jpg', badge_discount: '50% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '2', name: 'Slim College Tote', category_id: '', original_price: 999, sale_price: 449, image_url: '/images/college.jpg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
-  { id: '3', name: 'Pro Trolley 24"', category_id: '', original_price: 3999, sale_price: 1599, image_url: '/images/trolleyyy.jpg', badge_discount: '60% OFF', badge_new: false, in_stock: true, created_at: '' },
-  { id: '4', name: 'Everyday Crossbody', category_id: '', original_price: 799, sale_price: 349, image_url: '/images/hand.jpg', badge_discount: '56% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '1', name: 'Urban Street Backpack', category_id: '', original_price: 1499, sale_price: 749, image_url: '/images/new_arrival_1.png', badge_discount: '50% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '2', name: 'Slim College Tote', category_id: '', original_price: 999, sale_price: 449, image_url: '/images/new_arrival_2.png', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '3', name: 'Everyday Crossbody', category_id: '', original_price: 799, sale_price: 349, image_url: '/images/new_arrival_3.png', badge_discount: '56% OFF', badge_new: true, in_stock: true, created_at: '' },
+  { id: '4', name: 'Minimalist Messenger', category_id: '', original_price: 1199, sale_price: 499, image_url: '/images/new_arrival_4.png', badge_discount: '58% OFF', badge_new: true, in_stock: true, created_at: '' },
   { id: '5', name: 'Campus Rolltop', category_id: '', original_price: 1299, sale_price: 599, image_url: '/images/all.jpg', badge_discount: '54% OFF', badge_new: false, in_stock: true, created_at: '' },
   { id: '6', name: 'Classy Hand Bags', category_id: '', original_price: 1799, sale_price: 799, image_url: '/images/ladies.jpg', badge_discount: '55% OFF', badge_new: true, in_stock: true, created_at: '' },
-  { id: '7', name: 'Minimalist Messenger', category_id: '', original_price: 1199, sale_price: 499, image_url: '/images/hand bag.jpg', badge_discount: '58% OFF', badge_new: false, in_stock: true, created_at: '' },
+  { id: '7', name: 'Pro Trolley 24"', category_id: '', original_price: 3999, sale_price: 1599, image_url: '/images/trolleyyy.jpg', badge_discount: '60% OFF', badge_new: false, in_stock: true, created_at: '' },
   { id: '8', name: 'Explorer Hardcase', category_id: '', original_price: 4999, sale_price: 1999, image_url: '/images/trolley.jpg', badge_discount: '60% OFF', badge_new: true, in_stock: true, created_at: '' },
 ]
 
-function ProductCard({ product, index }: { product: Product; index: number }) {
+function ProductCard({ product, index, onViewDetails }: { product: Product; index: number; onViewDetails: () => void }) {
   const [hovered, setHovered] = useState(false)
   const { addToCart } = useCart()
   const savings = product.original_price - product.sale_price
@@ -58,13 +58,25 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
         <div className={styles.overlay}>
           <button 
+            className={`${styles.viewDetailsBtn} clay-btn`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetails();
+            }}
+          >
+            VIEW DETAILS
+          </button>
+          <button 
             className={`${styles.quickAdd} clay-btn clay-btn-accent`}
-            onClick={() => addToCart({
-              id: product.id,
-              name: product.name,
-              price: product.sale_price,
-              image_url: product.image_url
-            })}
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart({
+                id: product.id,
+                name: product.name,
+                price: product.sale_price,
+                image_url: product.image_url
+              });
+            }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M12 5v14M5 12h14"/>
@@ -88,6 +100,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 export default function FeaturedDrop() {
   const [products, setProducts] = useState<Product[]>(FALLBACK)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/products`)
@@ -99,7 +112,7 @@ export default function FeaturedDrop() {
   }, [])
 
   return (
-    <section className={styles.section}>
+    <section id="new-arrivals" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
@@ -108,8 +121,11 @@ export default function FeaturedDrop() {
               FEATURED <span className={styles.titleAccent}>DROP</span>
             </h2>
           </div>
-          <button className={`clay-btn ${styles.viewAll}`}>
-            VIEW ALL DEALS
+          <button 
+            className={`clay-btn ${styles.viewAll}`}
+            onClick={() => setSelectedIndex(0)}
+          >
+            VIEW DETAILS
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
@@ -118,10 +134,42 @@ export default function FeaturedDrop() {
 
         <div className={styles.grid}>
           {products.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
+            <ProductCard key={p.id} product={p} index={i} onViewDetails={() => setSelectedIndex(i)} />
           ))}
         </div>
       </div>
+
+      {selectedIndex !== null && (
+        <div className={styles.modalOverlay} onClick={() => setSelectedIndex(null)}>
+          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+            <button className={styles.closeModal} onClick={() => setSelectedIndex(null)}>✕</button>
+            <div className={styles.modalImgWrap}>
+              <img src={products[selectedIndex].image_url} alt={products[selectedIndex].name} className={styles.modalImg} />
+            </div>
+            <div className={styles.modalInfo}>
+              <h3 className={styles.modalName}>{products[selectedIndex].name}</h3>
+              <div className={styles.modalPricing}>
+                <span className={styles.modalSale}>₹{products[selectedIndex].sale_price.toLocaleString('en-IN')}</span>
+                <span className={styles.modalOriginal}>₹{products[selectedIndex].original_price.toLocaleString('en-IN')}</span>
+              </div>
+              <div className={styles.modalControls}>
+                <button 
+                  className={styles.modalCtrlBtn}
+                  onClick={() => setSelectedIndex((selectedIndex - 1 + products.length) % products.length)}
+                >
+                  PREVIOUS
+                </button>
+                <button 
+                  className={styles.modalCtrlBtn}
+                  onClick={() => setSelectedIndex((selectedIndex + 1) % products.length)}
+                >
+                  NEXT
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

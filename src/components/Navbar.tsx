@@ -22,7 +22,7 @@ export default function Navbar() {
 
         <div className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
           {[
-            { label: 'NEW ARRIVALS', href: '#' },
+            { label: 'NEW ARRIVALS', href: '#new-arrivals' },
             { label: 'CATEGORIES', href: '#' },
             { label: 'OUR LEGACY', href: '#legacy' },
             { label: 'ABOUT', href: '#' }
